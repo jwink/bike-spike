@@ -16,14 +16,16 @@ end
 class Average < ActiveRecord::Base
 end
 
+class Saturation < ActiveRecord::Base
+end
+
 
 stations = Station.all
 
 days_array = [1,2,3,4,5]
 hours_array = *(0..23)
 
-hours_array = [8]
-
+#hours_array = [8]
 data = []
 
 stations.each do |station|
@@ -44,10 +46,12 @@ stations.each do |station|
     hour_hash['avg_bikes'] = avg_bikes
     hour_hash['avg_docks'] = avg_docks
     hour_hash['hour'] = hour
+    hour_hash['saturation'] = avg_bikes / station.capacity.to_f
+    Saturation.create(hour_hash)
     data << hour_hash
   end
 end
 
-puts data
+
 
 
