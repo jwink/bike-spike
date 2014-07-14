@@ -45,6 +45,9 @@ station_hash.each do |key, value|
   freq = station_hash[key][max]
   perc = freq.to_f/966.0
   fin_hash[key] = add_array.max
+  station = Station.where(station_id: key).take
+  station.capacity = add_array.max
+  station.save
   puts "Station: #{key}, max: #{add_array.max}, perc: #{perc}"
 end
 
