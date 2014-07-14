@@ -36,6 +36,10 @@ quads_array.each do |quad|
       capacity += station.capacity
     end
     q_saturation = bike_sum.to_f / capacity.to_f
+    stations.each do |station|
+      station.quadsatur = q_saturation
+      station.save
+    end
     sanity_check = s_sat / counter.to_f
     puts "#{quad}, #{hour}, #{q_saturation}, #{sanity_check}"
   end

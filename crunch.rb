@@ -33,7 +33,9 @@ stations.each do |station|
     bikes = 0
     docks = 0
     hour_hash = {}
-    hour_hash['station_id'] = station.station_id
+    hour_hash['citibike_id'] = station.station_id
+    hour_hash['latitude'] = station.latitude
+    hour_hash['longitude'] = station.longitude
     hour_hash['capacity'] = station.capacity
     hour_hash['quadrant'] = station.quadrant
     days_array.each do |day|
