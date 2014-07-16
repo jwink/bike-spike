@@ -31,6 +31,7 @@ stations.each do |station|
   station_hash['citibike_id'] = station.station_id
   station_hash['latitude'] = station.latitude
   station_hash['longitude'] = station.longitude
+  station_hash['type'] = "plain"
   saturation_array = []
   data.each do |obs|
     if obs.citibike_id == station.station_id
@@ -39,12 +40,14 @@ stations.each do |station|
   end
   if saturation_array.max < 0.3
     station_hash['empty'] = 1
+    station_hash['type'] = "empty"
     empty_count += 1
   else
     station_hash['empty'] = 0
   end
   if saturation_array.min > 0.5
     station_hash['full'] = 1
+    station_hash['type'] = "full"
     full_count += 1
   else
     station_hash['full'] = 0
@@ -56,14 +59,19 @@ stations.each do |station|
     end
   end
   station_hash['goldielocks'] = flag
+  if flag == 1
+    station_hash['type'] = "goldielocks"
+  end
   if (saturation_array.max - saturation_array.min) > 0.7
     station_hash['volatile'] = 1
+    station_hash['type'] = "volatile"
     volatile_count += 1
   else
     station_hash['volatile'] = 0
   end
   test << station_hash['empty'] + station_hash['full']+
           station_hash['goldielocks'] + station_hash['volatile']
+
   all_info << station_hash
 end
 
@@ -74,5 +82,5 @@ all_info.each do |sta|
   end
 end
 
-puts all_info
+puts all_info.to_json
 puts test.reduce(:+)
